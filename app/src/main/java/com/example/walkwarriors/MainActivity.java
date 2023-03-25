@@ -3,25 +3,38 @@ package com.example.walkwarriors;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.os.Bundle;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+    SensorManager sensorManager;
 
    private TextView heroStats;
    private ImageView sprite;
+   private TextView dailySteps;
    private Button switchSprites;
     private Button equipmentButton;
     private ProgressBar levelBar;
     private Hero mainCharacter;
+
+    private TextView steps;
+
+    private boolean running = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +46,9 @@ public class MainActivity extends AppCompatActivity{
         levelBar = (ProgressBar)findViewById(R.id.levelTracker);
         // Hero Stats
         heroStats.setText(mainCharacter.getHeroString());
+        steps = (TextView) findViewById(R.id.steps);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        dailySteps = (TextView)findViewById(R.id.dailySteps);
 
         // Switch Genders
         switchSprites.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +80,41 @@ public class MainActivity extends AppCompatActivity{
     private void openEquipmentActivity() {
         Intent intent  = new Intent(this, EquipmentActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        running = true;
+        Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if(countSensor != null){
+            sensorManager.registerListener(this, countSensor,SensorManager.SENSOR_DELAY_FASTEST);
+            steps.setText(countSensor.getName());
+        }else{
+            Toast.makeText(this,"sensor not found!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        running = false;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        steps.setText("+100 bing chilling");
+        if(running){
+            steps.setText(String.valueOf(sensorEvent.values[0]));
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+
     }
 
     @Override
