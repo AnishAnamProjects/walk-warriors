@@ -1,7 +1,9 @@
 package com.example.walkwarriors;
 
 
-public class Hero {
+import java.io.Serializable;
+
+public class Hero implements Serializable {
     //hero states.
     //This is the health.
     private double HP;
@@ -21,13 +23,16 @@ public class Hero {
     private long threshold;
     //Holds equipped skill.
     private Skill heroSkill;
-
+    private String name;
     //HeroSprite Gender
     protected int heroSprite;
+    protected EquipmentLibrary equipmentLibrary = new EquipmentLibrary();
+    protected Equipment weapon;
 
 
     //base stats hero will be spawned with.
-    public Hero(){
+    public Hero(String heroName){
+        name = heroName;
         HP = 100;
         Attack = 20;
         Defense = 10;
@@ -37,6 +42,7 @@ public class Hero {
         Level = 0;
         threshold = 10000;
         heroSprite = 0;
+        weapon = equipmentLibrary.getEquipments().get(0);
     }
 
     //Updates the exp of the hero to level up.

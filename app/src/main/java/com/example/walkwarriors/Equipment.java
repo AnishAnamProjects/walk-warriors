@@ -1,6 +1,8 @@
 package com.example.walkwarriors;
 
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 
 import androidx.annotation.DrawableRes;
@@ -30,8 +32,8 @@ public class Equipment {
     private Element element;
     private  Type type;
     private int boostValue;
-    @DrawableRes
-    private int image;
+
+    private int  image;
 
     public String getName() {
         return name;
@@ -53,12 +55,11 @@ public class Equipment {
         return boostValue;
     }
 
-    @DrawableRes
     public int getImage() {
         return image;
     }
 
-    public Equipment(String name, Rarity rarity, Element element, Type type, int boostValue, @DrawableRes int image) {
+    public Equipment(String name, Rarity rarity, Element element, Type type, int boostValue, int image) {
         // https://stackoverflow.com/questions/62343576/is-it-possible-to-add-an-image-as-a-class-attribute
         this.name = name;
         this.rarity = rarity;
