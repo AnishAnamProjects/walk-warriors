@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     // Level Up
     private void openLevelUpActivity() {
         Intent intent  = new Intent(this, LevelUpActivity.class);
+        intent.putExtra("hero", mainCharacter);
+        Intent i = getIntent();
+        mainCharacter = (Hero)intent.getSerializableExtra("hero");
         startActivity(intent);
     }
     // Equipment Summon
@@ -115,7 +118,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         steps.setText(String.valueOf(mainCharacter.getSteps()) );
         stepsTakenAtTheStart = (int)sensorEvent.values[0];
-        levelBar.setProgress(progressSteps);
+        levelBar.setProgress((int)mainCharacter.getSteps());
+        if(levelBar.getProgress() == 100){
+            openLevelUpActivity();
+            levelBar = (ProgressBar)findViewById(R.id.levelTracker);
+        }
     }
 
     @Override
