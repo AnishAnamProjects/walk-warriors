@@ -44,29 +44,32 @@ public class Hero {
         this.Steps = steps;
     }
 
-    //Updates the stats when hero reaches the
-    // level threshold level up.
-    public boolean LevelUp(String stat){
+    /**
+     * Updates the stats when hero reaches the level threshold level up.
+     * @param stat
+     * @return
+     */
+    public boolean LevelUp(Element stat){
 
         if (Level != 100 && threshold == Steps) {
             switch (stat) {
-                case "HP":
+                case HEALTH:
                     //This updates the value of the health with the curve (x-1)^2 when 1 => x >= 0.
                     HP = HP + ((((Level / 100.00) - 1.00) * ((Level / 100.00) - 1.00)) * 100);
                     break;
-                case "Attack":
+                case ATTACK:
                     //This updates the value of the attack.
                     Attack = Attack + ((((((Level / 100.00)) / 3.00) * (((Level / 100.00)) / 3.00)) + 0.2)) * Attack;
                     break;
-                case "Defense":
+                case DEFENSE:
                     //This updates the Defense of the hero.
                     Defense = Defense + ((((Level / 100.00) - 1.00) * ((Level / 100.00) - 1.00)) / 2.00) * Defense;
                     break;
-                case "Speed":
+                case SPEED:
                     //This updates the speed based on the level.
                     Speed = Speed + 1.00;
                     break;
-                case "Intelligence":
+                case INTELLIGENCE:
                     //This updates the intelligence for higher crit chance.
                     Intelligence = Intelligence + ((((Level / 100.00) - 1.00) * ((Level / 100.00) - 1.00)) / 2.00);
                     break;
