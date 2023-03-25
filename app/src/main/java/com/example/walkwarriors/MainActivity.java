@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private int stepsTakenAtTheStart;
     private int progressSteps;
-
+    private HeroStats stats;
     private boolean running = false;
 
 //    SharedPreferences setting = getApplicationContext().getSharedPreferences("main character", 0);
@@ -53,10 +53,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainCharacter = new Hero("HeroA");
+        stats = new HeroStats();
         heroStats = (TextView)findViewById(R.id.heroStats);
         levelBar = (ProgressBar)findViewById(R.id.levelTracker);
         // Hero Stats
-        heroStats.setText(mainCharacter.getHeroString());
+        heroStats.setText(stats.getHeroString());
         steps = (TextView) findViewById(R.id.steps);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         dailySteps = (TextView)findViewById(R.id.dailySteps);
@@ -71,11 +72,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     // Level Up
     private void openLevelUpActivity() {
-        Intent intent  = new Intent(this, LevelUpActivity.class);
-        intent.putExtra("hero", mainCharacter);
-        Intent i = getIntent();
-        mainCharacter = (Hero)intent.getSerializableExtra("hero");
-        startActivity(intent);
+//
+        stats.LevelUp();
+        heroStats.setText(stats.getHeroString());
     }
     // Equipment Summon
     private void openEquipmentSummonActivity() {
@@ -115,12 +114,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         if(running){
             progressSteps = ((int)sensorEvent.values[0]-stepsTakenAtTheStart);
-            mainCharacter.setSteps(mainCharacter.getSteps()+progressSteps);
+            stats.setSteps(stats.getSteps()+progressSteps);
         }
-        steps.setText(String.valueOf(mainCharacter.getSteps()) );
+        steps.setText(String.valueOf(stats.getSteps()) );
         stepsTakenAtTheStart = (int)sensorEvent.values[0];
-        levelBar.setProgress((int)mainCharacter.getSteps());
-        if(levelBar.getProgress() == 100){
+        levelBar.setMax(1);
+        levelBar.setProgress((int)stats.getSteps());
+        if(levelBar.getProgress() == levelBar.getMax()){
+            heroStats.setText("YEEEE");
             openLevelUpActivity();
             levelBar = (ProgressBar)findViewById(R.id.levelTracker);
         }
@@ -168,6 +169,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private ActivityResultLauncher<Intent> heroActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        mainCharacter = (Hero) data.getSerializableExtra("hero");
+                        heroStats.setText(stats.getHeroString());
+                    }
+                }
+            });
 
     private ActivityResultLauncher<Intent> equipmentActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),

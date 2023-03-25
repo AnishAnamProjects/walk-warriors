@@ -15,10 +15,17 @@ public class LevelUpActivity extends AppCompatActivity {
     private Button speed;
     private Button intelligence;
     private Button vitality;
-    Hero mainCharacter;
+    HeroStats mainCharacter;
 
-    public LevelUpActivity(Hero mainCharacter){
+    public LevelUpActivity(HeroStats mainCharacter){
         this.mainCharacter = mainCharacter;
+    }
+
+    private void updateHeroAndFinish() {
+        Intent intent  = new Intent(LevelUpActivity.this, MainActivity.class);
+        intent.putExtra("hero", mainCharacter);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override
@@ -31,41 +38,47 @@ public class LevelUpActivity extends AppCompatActivity {
         intelligence = (Button)findViewById(R.id.Intelligence);
         vitality = (Button)findViewById(R.id.Vitality);
         Intent intent = getIntent();
-        mainCharacter = (Hero)intent.getSerializableExtra("hero");
+        mainCharacter = (HeroStats)intent.getSerializableExtra("stats");
+
         strength.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               mainCharacter.LevelUp("Attack");
+               mainCharacter.LevelUp();
+               updateHeroAndFinish();
             }
         });
         hitPoints.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainCharacter.LevelUp("HP");
+                mainCharacter.LevelUp();
+                updateHeroAndFinish();
             }
         });
         speed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainCharacter.LevelUp("Speed");
+                mainCharacter.LevelUp();
+                updateHeroAndFinish();
             }
         });
         intelligence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainCharacter.LevelUp("Intelligence");
+                mainCharacter.LevelUp();
+                updateHeroAndFinish();
             }
         });
         vitality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainCharacter.LevelUp("Defense");
+                mainCharacter.LevelUp();
+                updateHeroAndFinish();
             }
         });
     }
     private void openMainActivity() {
         Intent intent  = new Intent(this, MainActivity.class);
-        intent.putExtra("hero", mainCharacter);
+        intent.putExtra("stats", mainCharacter);
         startActivity(intent);
     }
 }
