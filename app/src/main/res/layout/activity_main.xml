@@ -19,18 +19,6 @@
         app:layout_constraintVertical_bias="0.378"
         app:srcCompat="@drawable/sprite_boy" />
 
-    <Button
-        android:id="@+id/equipmentButton"
-        android:layout_width="125dp"
-        android:layout_height="57dp"
-        android:text="Equipment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchSprites"
-        app:layout_constraintVertical_bias="0.195" />
-
     <TextView
         android:id="@+id/heroStats"
         android:layout_width="187dp"
@@ -38,10 +26,10 @@
         android:text="Hero Stats:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.973" />
+        app:layout_constraintVertical_bias="0.945" />
 
     <TextView
         android:id="@+id/heroName"
@@ -66,18 +54,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.362"
         app:srcCompat="@drawable/trident" />
-
-    <Button
-        android:id="@+id/switchSprites"
-        android:layout_width="107dp"
-        android:layout_height="62dp"
-        android:text="Sprite Switch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/heroName"
-        app:layout_constraintVertical_bias="0.129" />
 
     <ProgressBar
         android:id="@+id/levelTracker"

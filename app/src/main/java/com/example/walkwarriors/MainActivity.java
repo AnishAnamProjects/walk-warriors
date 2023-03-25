@@ -21,11 +21,14 @@ import android.widget.TextView;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     SensorManager sensorManager;
 
    private TextView heroStats;
    private ImageView sprite;
+   private ImageView weapon;
    private TextView dailySteps;
    private Button switchSprites;
     private Button equipmentButton;
@@ -34,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private TextView steps;
 
-    private long stepsTakenAtTheStart;
+    private int stepsTakenAtTheStart;
+    private int progressSteps;
 
     private boolean running = false;
 
@@ -47,9 +51,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainCharacter = new Hero();
-        switchSprites = (Button)findViewById(R.id.switchSprites);
-        equipmentButton = (Button)findViewById(R.id.equipmentButton);
+        mainCharacter = new Hero("HeroA");
         heroStats = (TextView)findViewById(R.id.heroStats);
         levelBar = (ProgressBar)findViewById(R.id.levelTracker);
         // Hero Stats
@@ -57,37 +59,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         steps = (TextView) findViewById(R.id.steps);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         dailySteps = (TextView)findViewById(R.id.dailySteps);
+        weapon = (ImageView) findViewById(R.id.weapon);
+        weapon.setImageResource(mainCharacter.weapon.getImage());
 
-        // Switch Genders
-        switchSprites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mainCharacter.heroSprite == 0){
-                    sprite = (ImageView)findViewById(R.id.heroSprite);
-                    sprite.setImageResource(R.drawable.sprite_girl);
-                    mainCharacter.heroSprite = 1;
-                } else {
-                    sprite = (ImageView)findViewById(R.id.heroSprite);
-                    sprite.setImageResource(R.drawable.sprite_boy);
-                    mainCharacter.heroSprite = 0;
-                }
-            }
-        });
-
-
-
-        // Equipment Button
-        equipmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openEquipmentActivity();
-            }
-        });
     }
-
+    // Equipment Selection
     private void openEquipmentActivity() {
         Intent intent  = new Intent(this, EquipmentActivity.class);
+        intent.putExtra("equipmentID", mainCharacter.weapon.getImage());
         startActivity(intent);
+    }
+    // Level Up
+    private void openLevelUpActivity() {
+        Intent intent  = new Intent(this, LevelUpActivity.class);
+        startActivity(intent);
+    }
+    // Equipment Summon
+    private void openEquipmentSummonActivity() {
+        Intent intent  = new Intent(this, EquipmentSummon.class);
+        startActivity(intent);
+    }
+
+    // Get Hero
+    private Hero getMainCharacter(){
+        return mainCharacter;
     }
 
     @Override
@@ -113,13 +108,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(stepsTakenAtTheStart == 0){
-            stepsTakenAtTheStart = (long)sensorEvent.values[0];
+            stepsTakenAtTheStart = (int)sensorEvent.values[0];
         }
         if(running){
-            mainCharacter.setSteps(mainCharacter.getSteps()+((long)sensorEvent.values[0]-stepsTakenAtTheStart));
+            progressSteps = ((int)sensorEvent.values[0]-stepsTakenAtTheStart);
+            mainCharacter.setSteps(mainCharacter.getSteps()+progressSteps);
         }
         steps.setText(String.valueOf(mainCharacter.getSteps()) );
-        stepsTakenAtTheStart = (long)sensorEvent.values[0];
+        stepsTakenAtTheStart = (int)sensorEvent.values[0];
+        levelBar.setProgress(progressSteps);
     }
 
     @Override
@@ -139,10 +136,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.spriteSwitch:
+                if(mainCharacter.heroSprite == 0){
+                    sprite = (ImageView)findViewById(R.id.heroSprite);
+                    sprite.setImageResource(R.drawable.sprite_girl);
+                    mainCharacter.heroSprite = 1;
+                } else {
+                    sprite = (ImageView)findViewById(R.id.heroSprite);
+                    sprite.setImageResource(R.drawable.sprite_boy);
+                    mainCharacter.heroSprite = 0;
+                }
                 return true;
             case R.id.equipment:
+                openEquipmentActivity();
+
                 return true;
             case R.id.weaponSummon:
+                openEquipmentSummonActivity();
                 return true;
             case R.id.weekly_goals:
                 return true;
