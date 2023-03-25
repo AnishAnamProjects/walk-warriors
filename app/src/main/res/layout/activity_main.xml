@@ -56,7 +56,7 @@
         app:layout_constraintVertical_bias="0.917" />
 
     <ImageView
-        android:id="@+id/heroSpriteOmega"
+        android:id="@+id/heroSprite"
         android:layout_width="294dp"
         android:layout_height="290dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,5 +101,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heroName"
         app:layout_constraintVertical_bias="0.206" />
+
+    <Button
+        android:id="@+id/equipButton"
+        android:layout_width="125dp"
+        android:layout_height="57dp"
+        android:text="Equipment"
+        tools:layout_editor_absoluteX="58dp"
+        tools:layout_editor_absoluteY="484dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

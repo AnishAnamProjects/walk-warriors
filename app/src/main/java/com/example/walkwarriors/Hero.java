@@ -22,6 +22,9 @@ public class Hero {
     //Holds equipped skill.
     private Skill heroSkill;
 
+    //HeroSprite Gender
+    protected int heroSprite;
+
 
     //base stats hero will be spawned with.
     public Hero(){
@@ -33,7 +36,7 @@ public class Hero {
         Steps = 0;
         Level = 0;
         threshold = 10000;
-
+        heroSprite = 0;
     }
 
     //Updates the exp of the hero to level up.
