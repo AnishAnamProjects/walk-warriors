@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         text = findViewById(R.id.Steps);
-        String texty = "yolo";
-        text.setText(texty);
+        String texto = "yolo";
+        text.setText(texto);
     }
 }
