@@ -1,8 +1,12 @@
 package com.example.walkwarriors;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -60,5 +64,27 @@ public class MainActivity extends AppCompatActivity{
     private void openEquipmentActivity() {
         Intent intent  = new Intent(this, EquipmentActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sprite_switch:
+                return true;
+            case R.id.equipment:
+                return true;
+            case R.id.weapon_summon:
+                return true;
+            case R.id.weekly_goals:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
