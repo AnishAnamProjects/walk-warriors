@@ -2,6 +2,7 @@ package com.example.walkwarriors;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity{
    private TextView text;
    private ImageView sprite;
    private Button switchSprites;
+    private Button equipmentButton;
    private Hero mainCharacter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         mainCharacter = new Hero();
         switchSprites = (Button)findViewById(R.id.switchSprites);
-
+        equipmentButton = (Button)findViewById(R.id.equipmentButton);
         // Switch Genders
         switchSprites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,5 +38,18 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
+
+        // Equipment Button
+        equipmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openEquipmentActivity();
+            }
+        });
+    }
+
+    private void openEquipmentActivity() {
+        Intent intent  = new Intent(this, EquipmentActivity.class);
+        startActivity(intent);
     }
 }

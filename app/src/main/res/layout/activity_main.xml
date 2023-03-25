@@ -103,11 +103,15 @@
         app:layout_constraintVertical_bias="0.206" />
 
     <Button
-        android:id="@+id/equipButton"
+        android:id="@+id/equipmentButton"
         android:layout_width="125dp"
         android:layout_height="57dp"
         android:text="Equipment"
-        tools:layout_editor_absoluteX="58dp"
-        tools:layout_editor_absoluteY="484dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.202"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchSprites"
+        app:layout_constraintVertical_bias="0.115" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
