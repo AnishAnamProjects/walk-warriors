@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/sprite_switch"
+    <item android:id="@+id/spriteSwitch"
         android:title="Sprite Switch" />
     <item android:id="@+id/equipment"
         android:title="Equipment" />
-    <item android:id="@+id/weapon_summon"
+    <item android:id="@+id/weaponSummon"
         android:title="Weapon Summon" />
     <item android:id="@+id/weekly_goals"
         android:title="Weekly Goals" />

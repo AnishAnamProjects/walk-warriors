@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sprite_switch:
+            case R.id.spriteSwitch:
                 return true;
             case R.id.equipment:
                 return true;
-            case R.id.weapon_summon:
+            case R.id.weaponSummon:
                 return true;
             case R.id.weekly_goals:
                 return true;
