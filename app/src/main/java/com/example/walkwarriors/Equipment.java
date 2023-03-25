@@ -7,6 +7,8 @@ import android.media.Image;
 
 import androidx.annotation.DrawableRes;
 
+import java.io.Serializable;
+
 enum Rarity {
     COMMON,
     RARE,
@@ -26,7 +28,7 @@ enum Type {
     ARMOR
 }
 
-public class Equipment {
+public class Equipment implements Serializable {
     private String name;
     private Rarity rarity;
     private Element element;
@@ -67,5 +69,13 @@ public class Equipment {
         this.type = type;
         this.boostValue = boostValue;
         this.image = image;
+    }
+
+    public String getEquipmentString(){
+        String equipString = "Name: " + name + "\n"+
+                "Rarity: " + rarity + "\n"+
+                "Element: " + element + "\n"+
+                "BoostValue: " + boostValue + "\n";
+        return equipString;
     }
 }
