@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +34,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private TextView steps;
 
+    private long stepsTakenAtTheStart;
+
     private boolean running = false;
+
+//    SharedPreferences setting = getApplicationContext().getSharedPreferences("main character", 0);
+////    SharedPreferences.Editor editor = setting.edit();
+////    editor.putInt("Startsets",(int)stepsTakenAtTheStart);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if(countSensor != null){
             sensorManager.registerListener(this, countSensor,SensorManager.SENSOR_DELAY_FASTEST);
-            steps.setText(countSensor.getName());
         }else{
             Toast.makeText(this,"sensor not found!", Toast.LENGTH_LONG).show();
         }
@@ -105,10 +112,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        steps.setText("+100 bing chilling");
-        if(running){
-            steps.setText(String.valueOf(sensorEvent.values[0]));
+        if(stepsTakenAtTheStart == 0){
+            stepsTakenAtTheStart = (long)sensorEvent.values[0];
         }
+        if(running){
+            mainCharacter.setSteps(mainCharacter.getSteps()+((long)sensorEvent.values[0]-stepsTakenAtTheStart));
+        }
+        steps.setText(String.valueOf(mainCharacter.getSteps()) );
+        stepsTakenAtTheStart = (long)sensorEvent.values[0];
     }
 
     @Override
@@ -138,4 +149,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
