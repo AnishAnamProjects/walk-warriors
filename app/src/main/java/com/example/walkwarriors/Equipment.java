@@ -33,6 +33,10 @@ public class Equipment {
     @DrawableRes
     private int image;
 
+    public String getName() {
+        return name;
+    }
+
     public Rarity getRarity() {
         return rarity;
     }
