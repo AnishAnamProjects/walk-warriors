@@ -1,11 +1,15 @@
 package com.example.walkwarriors;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,15 +17,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.widget.Toast;
-
-import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     SensorManager sensorManager;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     // Equipment Selection
     private void openEquipmentActivity() {
         Intent intent  = new Intent(this, EquipmentActivity.class);
-        intent.putExtra("equipmentID", mainCharacter.weapon.getImage());
+        intent.putExtra("equipmentID", mainCharacter.weapon);
         startActivity(intent);
     }
     // Level Up
@@ -152,10 +153,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     mainCharacter.heroSprite = 0;
                 }
                 return true;
-            case R.id.equipment:
-                openEquipmentActivity();
-
+            case R.id.equipment: {
+//                openEquipmentActivity();
+                Intent intent = new Intent(MainActivity.this, EquipmentActivity.class);
+                intent.putExtra("equipmentID", mainCharacter.weapon);
+                equipmentActivityResultLauncher.launch(intent);
                 return true;
+            }
             case R.id.weaponSummon:
                 openEquipmentSummonActivity();
                 return true;
@@ -165,5 +169,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return super.onOptionsItemSelected(item);
     }
 
+    private ActivityResultLauncher<Intent> equipmentActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Equipment currentEquipment = (Equipment) data.getSerializableExtra("currentlyEquipped");
+                        mainCharacter.weapon = currentEquipment;
+                        int mainWeapon = (int) currentEquipment.getImage();
+                        weapon.setImageResource(mainWeapon);
+                    }
+                }
+            });
 
 }
