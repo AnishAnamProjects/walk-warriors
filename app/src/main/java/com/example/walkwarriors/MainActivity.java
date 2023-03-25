@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         dailySteps = (TextView)findViewById(R.id.dailySteps);
         weapon = (ImageView) findViewById(R.id.weapon);
         weapon.setImageResource(mainCharacter.weapon.getImage());
-
     }
     // Equipment Selection
     private void openEquipmentActivity() {
