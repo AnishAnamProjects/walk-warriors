@@ -46,7 +46,7 @@ public class Hero {
 
     //Updates the stats when hero reaches the
     // level threshold level up.
-    public boolean LevelUp(String stat){
+    public boolean LevelUp(String stat) {
 
         if (Level != 100 && threshold == Steps) {
             switch (stat) {
@@ -77,6 +77,15 @@ public class Hero {
             return true;
         }
         return false;
+    }
+    public String getHeroString(){
+        String heroData = "Hero Stats:\n" +
+                "Health: " + getHP() + "\n" +
+                "Attack: " + getAttack() + "\n" +
+                "Defense: " + getDefense() + "\n" +
+                "Speed: " + getSpeed() + "\n" +
+                "Intelligence: " + getIntelligence() + "\n";
+        return heroData;
     }
 
     public long getThreshold() {

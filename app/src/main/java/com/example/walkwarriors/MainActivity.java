@@ -6,16 +6,18 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity{
 
-   private TextView text;
+   private TextView heroStats;
    private ImageView sprite;
    private Button switchSprites;
     private Button equipmentButton;
-   private Hero mainCharacter;
+    private ProgressBar levelBar;
+    private Hero mainCharacter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,11 @@ public class MainActivity extends AppCompatActivity{
         mainCharacter = new Hero();
         switchSprites = (Button)findViewById(R.id.switchSprites);
         equipmentButton = (Button)findViewById(R.id.equipmentButton);
+        heroStats = (TextView)findViewById(R.id.heroStats);
+        levelBar = (ProgressBar)findViewById(R.id.levelTracker);
+        // Hero Stats
+        heroStats.setText(mainCharacter.getHeroString());
+
         // Switch Genders
         switchSprites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +45,8 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
+
+
 
         // Equipment Button
         equipmentButton.setOnClickListener(new View.OnClickListener() {
